@@ -4,88 +4,82 @@
 namespace Phi\HTTP;
 
 
-
-
 class CacheControl
 {
 
-    protected $maxAge=600;
-    protected $public=true;
-    protected $noStore=false;
-    protected $noCache=false;
+    protected $maxAge = 600;
+    protected $public = true;
+    protected $noStore = false;
+    protected $noCache = false;
 
-    public function __construct($maxAge=600) {
-        $this->maxAge=$maxAge;
+    public function __construct($maxAge = 600)
+    {
+        $this->maxAge = $maxAge;
     }
 
-    public function noStore($value=null) {
-        if($value===null) {
+    public function noStore($value = null)
+    {
+        if ($value === null) {
             return $this->noStore;
-        }
-        else {
-            $this->noStore=$value;
+        } else {
+            $this->noStore = $value;
             return $this;
         }
     }
 
 
-    public function noCache($value=null) {
-        if($value===null) {
+    public function noCache($value = null)
+    {
+        if ($value === null) {
             return $this->noCache;
-        }
-        else {
-            $this->noCache=$value;
+        } else {
+            $this->noCache = $value;
             return $this;
         }
     }
 
 
+    public function getHeaders()
+    {
 
-    public function getHeaders() {
+        $name = "Cache-Control";
+        $headers = array();
 
-        $name="Cache-Control";
-        $headers=array();
+        if (!$this->noStore) {
 
-        if(!$this->noStore) {
-
-            if($this->public) {
-                $value='public';
+            if ($this->public) {
+                $value = 'public';
+            } else {
+                $value = 'private';
             }
-            else {
-                $value='private';
-            }
 
-            $value.=', max-age='.(int) $this->maxAge;
+            $value .= ', max-age=' . (int)$this->maxAge;
 
-            $expire=gmdate('D, d M Y H:i:s', time()+$this->maxAge).' GMT';
-            $headers[]=array(
-                'name'=>'Expires',
-                'value'=>$expire
+            $expire = gmdate('D, d M Y H:i:s', time() + $this->maxAge) . ' GMT';
+            $headers[] = array(
+                'name' => 'Expires',
+                'value' => $expire
             );
 
-            if($this->noCache) {
-                $value.=', no-cache';
+            if ($this->noCache) {
+                $value .= ', no-cache';
             }
-        }
-        else {
-            $value='no-store';
+        } else {
+            $value = 'no-store';
         }
 
-        $headers[]=array(
-            'name'=>$name,
-            'value'=>$value
-        );
+        $headers[] = new Header($name, $value);
+
         return $headers;
     }
 
-    public function sendHeaders() {
-        $headers=$this->getHeaders();
+    public function sendHeaders()
+    {
+        $headers = $this->getHeaders();
         foreach ($headers as $header) {
-            header($header['name'].': '.$header['value']);
+            $header->send();
         }
     }
-
-
 
 
 }
