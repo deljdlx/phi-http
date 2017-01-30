@@ -56,10 +56,8 @@ class CacheControl
             $value .= ', max-age=' . (int)$this->maxAge;
 
             $expire = gmdate('D, d M Y H:i:s', time() + $this->maxAge) . ' GMT';
-            $headers[] = array(
-                'name' => 'Expires',
-                'value' => $expire
-            );
+
+            $headers[] = new Header('Expires', $expire);
 
             if ($this->noCache) {
                 $value .= ', no-cache';
