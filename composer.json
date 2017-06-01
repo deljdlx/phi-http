@@ -3,7 +3,7 @@
 	"description": "Phi http",
 	"autoload": {
 		"psr-4": {
-			"Phi\\HTTP\\": "source/class/HTTP"
+			"Phi\\HTTP\\": "source/class"
 		},
 		"files": [
 
