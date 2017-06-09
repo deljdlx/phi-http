@@ -7,7 +7,14 @@ namespace Phi\HTTP;
 class Response
 {
 
+    /**
+     * @var Header[]
+     */
     protected $headers = array();
+
+    /**
+     * @var string
+     */
     protected $content = '';
 
 
@@ -17,6 +24,31 @@ class Response
         $this->headers = $headers;
     }
 
+
+    /**
+     * @param $content
+     * @return $this
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+        return $this;
+    }
+
+    /**
+     * @return Header[]
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+
+    /**
+     * @param null $nameOrHeader
+     * @param null $value
+     * @return $this
+     */
     public function addHeader($nameOrHeader = null, $value = null)
     {
         if ($nameOrHeader instanceof Header) {
@@ -31,15 +63,5 @@ class Response
         return $this;
     }
 
-
-    public function send()
-    {
-
-        foreach ($this->headers as $header) {
-            $header->send();
-        }
-        return $this->content;
-
-    }
 
 }
