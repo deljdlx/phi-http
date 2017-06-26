@@ -4,7 +4,7 @@
 namespace Phi\HTTP;
 
 
-class Request
+class Request extends Message
 {
 
 
