@@ -13,7 +13,7 @@ class Request extends Message
 
     protected $protocol = null;
     protected $normalizedProtocol = '';
-    protected $variables = array();
+    protected $serverVariables = array();
 
     protected $hostname;
 
@@ -27,7 +27,7 @@ class Request extends Message
 
     public function autobuild() {
 
-        $this->variables['server'] = $_SERVER;
+        $this->serverVariables = $_SERVER;
 
         if (array_key_exists('REQUEST_URI', $_SERVER)) {
           $this->uri = $_SERVER['REQUEST_URI'];
