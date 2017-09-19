@@ -28,6 +28,9 @@ class Header
     }
 
 
+    /**
+    * @return $this
+    */
     public function send()
     {
         header($this->name . ': ' . $this->value);

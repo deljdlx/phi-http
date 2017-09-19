@@ -11,6 +11,7 @@ class Message
      * @var Header[]
      */
     protected $headers = array();
+    protected $body = '';
 
     /**
      * @return Header[]
@@ -38,6 +39,19 @@ class Message
         $header = new Header($name, $value);
         $this->headers[$name] = $header;
         return $this;
-
     }
+
+
+
+    /**
+     * @param $content
+     * @return $this
+     */
+    public function setBody($content)
+    {
+      $this->body = $content;
+      return $this;
+    }
+
+
 }

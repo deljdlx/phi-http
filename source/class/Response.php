@@ -8,13 +8,6 @@ class Response extends Message
 {
 
 
-
-    /**
-     * @var string
-     */
-    protected $content = '';
-
-
     /**
      * Response constructor.
      * @param string $content
@@ -22,21 +15,8 @@ class Response extends Message
      */
     public function __construct($content = '', array $headers = array())
     {
-        $this->content = $content;
+        $this->setBody($content);
         $this->headers = $headers;
     }
-
-
-    /**
-     * @param $content
-     * @return $this
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-        return $this;
-    }
-
-
 
 }
