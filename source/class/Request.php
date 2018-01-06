@@ -9,7 +9,7 @@ class Request extends Message
 
 
     protected $uri = null;
-    protected $method = null;
+    protected $verb = null;
 
     protected $protocol = null;
     protected $normalizedProtocol = '';
@@ -43,7 +43,7 @@ class Request extends Message
         }
 
         if (array_key_exists('REQUEST_METHOD', $_SERVER)) {
-          $this->method = $_SERVER['REQUEST_METHOD'];
+          $this->verb = $_SERVER['REQUEST_METHOD'];
         }
 
         if(function_exists('getallheaders')) {
@@ -72,5 +72,11 @@ class Request extends Message
         $this->uri = $uri;
         return $this;
     }
+
+
+    public function getVerb() {
+        return $this->verb;
+    }
+
 
 }
