@@ -23,6 +23,9 @@ class Request extends Message
 
     protected $hostname;
 
+    protected $postVariables =array();
+    protected $getVariables =array();
+
 
     public function __construct($autobuild = true)
     {
@@ -34,6 +37,7 @@ class Request extends Message
     public function autobuild() {
 
         $this->serverVariables = $_SERVER;
+        $this->postVariables = $_POST;
 
         if (array_key_exists(static::KEY_URI, $_SERVER)) {
           $this->uri = $_SERVER[static::KEY_URI];
@@ -60,6 +64,30 @@ class Request extends Message
             }
         }
         return $this;
+    }
+
+    public function post($variableName = null) {
+
+        if($variableName === null) {
+            return $this->postVariables;
+        }
+
+        if(array_key_exists($variableName, $this->postVariables)) {
+            return $this->postVariables[$variableName];
+        }
+        return null;
+    }
+
+    public function get($variableName = null) {
+
+        if($variableName === null) {
+            return $this->getVariables;
+        }
+
+        if(array_key_exists($variableName, $this->getVariables)) {
+            return $this->getVariables[$variableName];
+        }
+        return null;
     }
 
 
