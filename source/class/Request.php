@@ -38,6 +38,7 @@ class Request extends Message
 
         $this->serverVariables = $_SERVER;
         $this->postVariables = $_POST;
+        $this->getVariables = $_GET;
 
         if (array_key_exists(static::KEY_URI, $_SERVER)) {
           $this->uri = $_SERVER[static::KEY_URI];
