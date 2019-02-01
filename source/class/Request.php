@@ -4,6 +4,8 @@
 namespace Phi\HTTP;
 
 
+use Phi\Session\Session;
+
 class Request extends Message
 {
 
@@ -25,10 +27,20 @@ class Request extends Message
 
     protected $postVariables =array();
     protected $getVariables =array();
+    protected $fileVariables = array();
+
+
+    protected $cookieVariables =array();
+
+    /**
+     * @var Session
+     */
+    protected $session;
 
 
     public function __construct($autobuild = true)
     {
+        parent::__construct();
         if($autobuild) {
           $this->autobuild();
         }
@@ -39,6 +51,27 @@ class Request extends Message
         $this->serverVariables = $_SERVER;
         $this->postVariables = $_POST;
         $this->getVariables = $_GET;
+
+
+
+        $this->fileVariables = array();
+        if(!empty($_FILES)) {
+            foreach ($_FILES as $name => $fileDescripor) {
+                $file = new UploadedFile($fileDescripor);
+                $this->fileVariables[$name] = $file;
+            }
+
+        }
+
+
+        $this->cookieVariables = $_COOKIE;
+
+
+        $this->session = new Session();
+
+
+
+        $this->setBody(file_get_contents('php://input'));
 
         if (array_key_exists(static::KEY_URI, $_SERVER)) {
           $this->uri = $_SERVER[static::KEY_URI];
@@ -67,6 +100,18 @@ class Request extends Message
         return $this;
     }
 
+
+    public function files($variableName = null) {
+        if($variableName === null) {
+            return $this->fileVariables;
+        }
+
+        if(array_key_exists($variableName, $this->fileVariables)) {
+            return $this->fileVariables[$variableName];
+        }
+        return null;
+    }
+
     public function post($variableName = null) {
 
         if($variableName === null) {
@@ -75,6 +120,28 @@ class Request extends Message
 
         if(array_key_exists($variableName, $this->postVariables)) {
             return $this->postVariables[$variableName];
+        }
+        return null;
+    }
+
+    public function session()
+    {
+        return $this->session->getVariables();
+    }
+
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    public function cookies($variableName = null)
+    {
+        if($variableName === null) {
+            return $this->cookieVariables;
+        }
+
+        if(array_key_exists($variableName, $this->cookieVariables)) {
+            return $this->cookieVariables[$variableName];
         }
         return null;
     }
@@ -99,6 +166,11 @@ class Request extends Message
 
     public function getURL() {
         return $this->normalizedProtocol.'://'.$this->hostname.$this->getURI();
+    }
+
+    public function isHTTP()
+    {
+        return true;
     }
 
 

@@ -12,6 +12,14 @@ class Message
      */
     protected $headers = array();
     protected $body = '';
+    protected $data;
+
+
+    public function __construct()
+    {
+
+    }
+
 
     /**
      * @return Header[]
@@ -51,6 +59,21 @@ class Message
     {
       $this->body = $content;
       return $this;
+    }
+
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    public function getBodyData()
+    {
+        if($this->data === null) {
+            parse_str($this->getBody(), $this->data);
+        }
+
+        return $this->data;
+
     }
 
 

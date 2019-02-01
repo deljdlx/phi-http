@@ -33,8 +33,23 @@ class Header
     */
     public function send()
     {
-        header($this->name . ': ' . $this->value);
+        if($this->value !==null) {
+            header($this->name . ': ' . $this->value);
+        }
+        else {
+           header($this->name);
+        }
+
         return $this;
+    }
+
+
+    public function isHTML()
+    {
+        if($this->name == 'Content-type' && strpos($this->value, 'text/html') !== false) {
+            return true;
+        }
+        return false;
     }
 
 
