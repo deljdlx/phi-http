@@ -52,10 +52,15 @@ class UploadedFile implements \JsonSerializable
 
         $this->destinationPath = $destination;
 
-        move_uploaded_file(
+        $success = move_uploaded_file(
            $this->getTemporaryName(),
            $destination
         );
+
+        if(!$success) {
+            throw new Exception('Move uploaded file to "'.$destination.'"" failed');
+        }
+
         return $this->destinationPath;
     }
 
