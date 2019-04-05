@@ -66,10 +66,16 @@ class Message
         return $this->body;
     }
 
-    public function getBodyData()
+    public function getBodyData($format = null)
     {
         if($this->data === null) {
-            parse_str($this->getBody(), $this->data);
+            if($format === null)  {
+                parse_str($this->getBody(), $this->data);
+            }
+            else if($format === 'json') {
+                $this->data = json_decode($this->getBody(), true);
+            }
+
         }
 
         return $this->data;
