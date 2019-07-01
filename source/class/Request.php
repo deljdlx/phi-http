@@ -9,6 +9,11 @@ use Phi\Session\Session;
 class Request extends Message
 {
 
+
+    const VERB_GET = 'GET';
+    const VERB_POST = 'POST';
+    const VERB_DELETE = 'DELETE';
+
     const KEY_URI = 'REQUEST_URI';
     const KEY_PROTOCOL = 'SERVER_PROTOCOL';
     const KEY_SERVER_NAME = 'SERVER_NAME';
@@ -17,7 +22,7 @@ class Request extends Message
 
 
     protected $uri = null;
-    protected $verb = null;
+    private $verb = null;
 
     protected $protocol = null;
     protected $normalizedProtocol = '';
@@ -208,6 +213,12 @@ class Request extends Message
         return $this;
     }
 
+
+    public function setVerb($verb)
+    {
+        $this->verb = $verb;
+        return $this;
+    }
 
     public function getVerb()
     {
