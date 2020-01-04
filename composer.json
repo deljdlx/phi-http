@@ -1,5 +1,5 @@
 {
-	"name": "phi/http",
+	"name": "elbiniou/phi-http",
 	"description": "Phi http",
 	"autoload": {
 		"psr-4": {
