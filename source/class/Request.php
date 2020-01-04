@@ -130,6 +130,10 @@ class Request extends Message
     }
 
 
+    /**
+     * @param null $variableName
+     * @return UploadedFile
+     */
     public function files($variableName = null)
     {
         if ($variableName === null) {
